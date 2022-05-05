@@ -25,7 +25,4 @@ public class Cliente {
 
 //	@OneToMany(mappedBy = "idCliente")
 //	private List<Titulares> titulares;
-
-	
-	
 }

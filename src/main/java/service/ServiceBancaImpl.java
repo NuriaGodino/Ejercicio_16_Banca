@@ -16,6 +16,7 @@ import dto.ClienteDto;
 import dto.CuentaDto;
 import dto.MovimientoDto;
 import model.Cuenta;
+import model.Movimiento;
 
 @Service
 public class ServiceBancaImpl implements ServiceBanca {
@@ -43,29 +44,56 @@ public class ServiceBancaImpl implements ServiceBanca {
 	}
 
 	@Override
-	public void ingreso(MovimientoDto movimiento) {
-		movimientoDao.save(conversor.dtoToMovimiento(movimiento));
-		Cuenta c = cuentasDao.findBynumeroCuenta(movimiento.getIdCuenta().getNumeroCuenta());
-		cuentasDao.save(c);
-	}
-
-	@Override
-	public void extraccion(MovimientoDto movimiento) {
-		movimientoDao.save(conversor.dtoToMovimiento(movimiento));
-		Cuenta c = cuentasDao.findBynumeroCuenta(movimiento.getIdCuenta().getNumeroCuenta());
-		cuentasDao.save(c);
-	}
-
-	@Override
-	public List<MovimientoDto> movimientosEntreFecha(Date f1, Date f2) {
-		return movimientoDao.findByMovimientoFechas(f1, f2).stream().map(x -> conversor.movimientoToDto(x)).collect(Collectors.toList());
-	}
-
-	@Override
 	public List<ClienteDto> listaClientes() {
 		return clientesDao.findAll().stream().map(x -> conversor.clienteToDto(x)).collect(Collectors.toList());
 	}
 	
+	@Override
+	public boolean ingreso(int numeroCuenta, int cantidad) {
+		Optional<Cuenta> c = cuentasDao.findById(numeroCuenta);
+		if(c.isPresent()) {
+			Movimiento m = new Movimiento(numeroCuenta, new Date(), cantidad, "ingreso");
+			movimientoDao.save(m);
+			c.get().setSaldo(c.get().getSaldo() + cantidad);
+			cuentasDao.save(c.get());
+			return true;
+		}
+		return false;
+	}
 
+	@Override
+	public boolean extraccion(int numeroCuenta, int cantidad) {
+		Optional<Cuenta> c = cuentasDao.findById(numeroCuenta);
+		if(c.isPresent()) {
+			Movimiento m = new Movimiento(numeroCuenta, new Date(), cantidad, "extraccion");
+			movimientoDao.save(m);
+			c.get().setSaldo(c.get().getSaldo() - cantidad);
+			cuentasDao.save(c.get());
+			return true;
+		}
+		return false;
+	}
 
+	@Override
+	public List<MovimientoDto> movimientosEntreFecha(int numeroCuenta, Date f1, Date f2) {
+		List<MovimientoDto> m = movimientoDao.findByMovimientoFechas(numeroCuenta, f1, f2).stream().map(x -> conversor.movimientoToDto(x)).collect(Collectors.toList());
+		return m;
+	}
+
+	@Override
+	public boolean transferencia(int a, int desde, int cantidad) {
+		Optional<Cuenta> origen = cuentasDao.findById(a);
+		Optional<Cuenta> destino = cuentasDao.findById(desde);
+		
+		if(origen.isPresent() && destino.isPresent()) {
+			Movimiento m = new Movimiento(a, new Date(), cantidad, "transferencia");
+			movimientoDao.save(m);
+			origen.get().setSaldo(origen.get().getSaldo() - cantidad);
+			destino.get().setSaldo(destino.get().getSaldo() + cantidad);
+			cuentasDao.save(origen.get());
+			cuentasDao.save(destino.get());
+			return true;
+		}
+		return false;
+	}
 }

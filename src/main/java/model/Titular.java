@@ -22,10 +22,10 @@ public class Titular {
 	private TitularPK id;
 	
 	@ManyToOne()
-	@JoinColumn(name = "numeroCuenta", referencedColumnName = "numeroCuenta", insertable = false, updatable = false)
+	@JoinColumn(name = "idCuenta", referencedColumnName = "numeroCuenta", insertable = false, updatable = false)
 	Cuenta cuenta;
 	
 	@ManyToOne()
-	@JoinColumn(name = "dni", referencedColumnName = "dni", insertable = false, updatable = false)
+	@JoinColumn(name = "idCliente", referencedColumnName = "dni", insertable = false, updatable = false)
 	Cliente cliente;
 }

@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -26,9 +27,9 @@ public class Cuenta {
 	private int saldo;
 	private String tipoCuenta;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "cuenta")
 	private List<Movimiento> movimientos;
+	@OneToMany List<Titular> titulares;
 	
 //	@OneToMany(mappedBy = "idCuenta")
 //	private List<Titulares> titulares;

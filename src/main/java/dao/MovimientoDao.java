@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import model.Movimiento;
 
 public interface MovimientoDao extends JpaRepository<Movimiento, Integer>{
-	@Query("select m from Movimiento m where m.fecha between ?1 and ?2")
-	List<Movimiento> findByMovimientoFechas(Date f1, Date f2);
+	@Query("select m from Movimiento m where m.cuenta.numeroCuenta=?1 and m.fecha between ?2 and ?3")
+	List<Movimiento> findByMovimientoFechas(int numeroCuenta, Date f1, Date f2);
 }

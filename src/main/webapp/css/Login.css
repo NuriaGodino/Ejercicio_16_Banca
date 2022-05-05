@@ -1,0 +1,64 @@
+body{
+	height: 100vh;
+	font-family: 'Poppins', sans-serif;
+	background-image: linear-gradient(to top right, #78ffe0, #e28cfe);
+}
+
+.contenedor{
+	max-width: 440px;
+	padding: 0 20px;
+	margin: 170px auto;
+}
+
+.envoltura{
+	width: 100%;
+	background:  #fffcf1;
+	border-radius: 10px;
+	box-shadow: 0px 4px 10px 1px  #eeeeee;
+}
+
+h1{
+	height: 90px;
+	background:  #fff1be;
+	border-radius: 5px 5px 0 0;
+	color: #494949;
+	font-size: 30px;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+form{
+	padding: 10px 25px 25px 25px;
+}
+
+.fila{
+	width: 84%;
+	margin-bottom: 20px;
+	height: 25px;
+	
+}
+
+.fila2{
+	margin-top: 37px;
+	width: 84%;
+	margin-bottom: 20px;
+	height: 25px;
+	
+}
+
+.input{
+	height: 100%;
+	width: 100%;
+	outline: none;
+	padding-left: 60px;
+	border-radius: 5%;
+	border: 1px solid lightgrey;
+	font-size: 16px;
+	margin-top: 10px;
+}
+
+.boton{
+	margin-top: 45px;
+}
